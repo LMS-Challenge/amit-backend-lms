@@ -1,0 +1,17 @@
+<!-- templates/registration/signup.html -->
+{% extends "base.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<h2>Sign Up</h2>
+<!-- student_signup.html -->
+<form method="post"  action="{% url 'student_signup' %}">
+  {% csrf_token %}
+  <input type="email" name="email" placeholder="Email" required>
+  <input type="password" name="password" placeholder="Password" required>
+  <!-- Add other student-specific fields here -->
+  <button type="submit">Sign Up</button>
+</form>
+
+{% endblock %}

@@ -1,49 +1,80 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 
 def upload_to(instance, filename):
     return 'course/{filename}'.format(filename=filename)
 
-
 GENDER_CHOICES = [
     ('M', 'Male'),
     ('F', 'Female'),
-    ]
+]
 
+class CustomUserManager(BaseUserManager):
+    
+    # It provides methods for creating users and superusers.
+    
+    def create_user(self, email, password=None, **extra_fields):
+        
+        # method creates a regular user with the given email and password.
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
 
-# Create your models here.
-class CustomUser(AbstractUser):
+    def create_superuser(self, email, password=None, **extra_fields):
+        # method creates a superuser (admin) with the given email and password.
+        user = self.create_user(email, password, **extra_fields)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
+        return user
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    # It represents our custom user model with basic fields.
+    email = models.EmailField(unique=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
     is_instructor = models.BooleanField(default=False)
 
-class Instructor(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='instructor')
+    objects = CustomUserManager()
+    
+    # specifies the field to use as the unique identifier (in this case, it’s the email).
+    USERNAME_FIELD = 'email'
+    # ists any additional fields required when creating a user.
+    REQUIRED_FIELDS = []
+
+class Instructor(CustomUser):
+  
     title = models.CharField(max_length=10, default='Dr.')
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     specialization = models.CharField(max_length=50)
 
-
     def save(self, *args, **kwargs):
+        """The save method ensures that the associated user’s is_instructor and is_staff fields are set correctly.
+         and override the default one in customuser"""
         # Set is_instructor to True for the user
-        if not self.user.is_instructor:
-            self.user.is_instructor = True
-            self.user.save()
+        if not self.is_instructor:
+            self.is_instructor = True
+            self.is_staff = True  # Set is_staff to True for instructors
+            self.save()
 
         super(Instructor, self).save(*args, **kwargs)
 
+ 
     def __str__(self):
         return f"{self.title} {self.name}"
 
-class Student(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='student')
+class Student(CustomUser):
+    # This model represents students.
+    
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     date_of_birth = models.DateField()
-    email = models.EmailField()
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
-    # profile_image = models.ImageField(upload_to=upload_to, blank=True, null=True) #pip install pillow
-
+    profile_image = models.ImageField(upload_to=upload_to, blank=True, null=True) 
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

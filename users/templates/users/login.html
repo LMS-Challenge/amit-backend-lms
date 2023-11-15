@@ -1,0 +1,36 @@
+<!-- templates/registration/login.html -->
+{% comment %} {% extends "base.html" %} {% endcomment %}
+
+{% comment %} {% block title %}Log In{% endblock %}
+
+{% block content %} {% endcomment %}
+   {% comment %} {% block content %}
+    {% endblock %} {% endcomment %}
+  {% comment %} <title>{% block title %}LMS OCD Challenge{% endblock %}</title> {% endcomment %}
+
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+</head>
+<body>
+  <main>
+ 
+
+    <h2>Log In</h2>
+    <!-- login.html -->
+    <form method="post" action="{% url 'user/login' %}">
+      {% csrf_token %}
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+
+
+  </main>
+</body>
+</html>
+
+{% comment %} {% endblock %} {% endcomment %}
