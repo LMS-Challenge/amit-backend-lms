@@ -1,1 +1,4 @@
 welcome to student page
+{% if user.is_authenticated %}
+My first name is {{ first_name }}. My last name is {{ last_name }}.
+{% endif %}

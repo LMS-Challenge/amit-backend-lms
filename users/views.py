@@ -1,13 +1,59 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
+from django.core.validators import validate_email
+from django.contrib.auth.validators import ASCIIUsernameValidator
+from django.core.exceptions import ValidationError
 from .models import CustomUser  # Your custom user model
 from .models import Student  # Import your Student model
 
 
 # Create your views here.
+# def register(request):
+#     if request.user.is_authenticated and request.user.is_instructor:
+#         return redirect('home')
+        
+#     if request.POST:
+#         user_name=request.POST.get('username')
+#         email=request.POST.get('email')
+#         password=request.POST.get('password')
+#         confirm_password=request.POST.get('confirm_password')
 
-def login(request):
+#         try:
+#             validate_email(email)
+#         except ValidationError:
+#             messages.error(request, "Please enter a correct email address!")
+#             return redirect('register')
+        
+#         try:
+#             validator=ASCIIUsernameValidator()
+#             validator(user_name)
+#         except:
+#             messages.error(request, ASCIIUsernameValidator.message)
+#             return redirect('register')
+        
+#         if User.get_object_or_none(username=user_name):
+#             messages.error(request, 'Username already exists')
+#             return redirect('register')
+
+#         if User.get_object_or_none(email=email):
+#             messages.error(request, 'Email already exists!')
+#             return redirect('register')
+
+#         if password!=confirm_password:
+#             messages.error(request, "Passwords don't match!")
+#             return redirect('register')
+
+#         user=User.objects.create(username=user_name, email=email)
+#         user.set_password(password)
+#         user.save()
+#         messages.success(request, 'Account Created successfully!')
+#         return redirect('login')
+    
+    # else:
+    #     return render(request, 'user_interface/registeration.html')
+
+def custom_login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -20,8 +66,8 @@ def login(request):
             login(request, user)
             if user.is_instructor:
                 return redirect('instructor/dashboard')  # Redirect to instructor dashboard
-            else:
-                return redirect('student/dashboard')  # Redirect to student dashboard
+            elif user.is_superuser and user.is_staff :
+                return redirect('/admin')  # Redirect to student dashboard
         else:
             # User does not exist or invalid credentials
             # You can handle this case (e.g., show an error message)
@@ -63,7 +109,7 @@ def student_signup(request):
         # Log the student user in
         login(request, student)
 
-        return redirect('student_dashboard')  # Redirect to student dashboard
+        return redirect('student/dashboard')  # Redirect to student dashboard
 
     return render(request, 'users/student_signup.html')
 

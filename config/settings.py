@@ -138,5 +138,5 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 
 # django_project/settings.py
-LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "login"
+# LOGIN_REDIRECT_URL = "home"
+# LOGOUT_REDIRECT_URL = "login/"
