@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 
 def upload_to(instance, filename):
-    return 'course/{filename}'.format(filename=filename)
+    return 'students/{filename}'.format(filename=filename)
 
 GENDER_CHOICES = [
     ('M', 'Male'),
@@ -33,6 +33,7 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     # It represents our custom user model with basic fields.
+    
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

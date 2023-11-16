@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.core.validators import validate_email
 from django.contrib.auth.validators import ASCIIUsernameValidator
@@ -53,20 +53,35 @@ from .models import Student  # Import your Student model
     # else:
     #     return render(request, 'user_interface/registeration.html')
 
+from django.contrib.auth import authenticate, login, get_user_model
+from django.shortcuts import redirect, render
+
 def custom_login(request):
+    if request.user.is_authenticated:
+        if request.user.is_instructor:
+            return redirect('instructor/dashboard')
+        elif not request.user.is_staff:
+            return redirect('student/dashboard')
+        elif request.user.is_superuser:
+            return redirect('/admin')
+
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-        
+        print(email)
+        print(password)
+
         # Authenticate the user based on email and password
+        User = get_user_model()
         user = authenticate(request, email=email, password=password)
-        
+
         if user is not None:
+            print(user.is_instructor)
             # User exists and credentials are valid
             login(request, user)
             if user.is_instructor:
-                return redirect('instructor/dashboard')  # Redirect to instructor dashboard
-            elif user.is_superuser and user.is_staff :
+                return redirect('/instructor/dashboard')  # Redirect to instructor dashboard
+            elif user.is_superuser and user.is_staff:
                 return redirect('/admin')  # Redirect to student dashboard
         else:
             # User does not exist or invalid credentials
@@ -90,7 +105,7 @@ def student_signup(request):
         last_name = request.POST.get('last_name')
         date_of_birth = request.POST.get('date_of_birth')
         gender =  request.POST.get('gender')
-        profile_image =  request.POST.get(profile_image)
+        profile_image =  request.POST.get('profile_image')
        
 
         # Create a new student user
@@ -109,9 +124,9 @@ def student_signup(request):
         # Log the student user in
         login(request, student)
 
-        return redirect('student/dashboard')  # Redirect to student dashboard
+        return redirect('')  # Redirect to student dashboard
 
-    return render(request, 'users/student_signup.html')
+    return render(request, 'users/signup.html')
 
 
 
@@ -122,3 +137,9 @@ def student_dashboard(request):
 
 def instructor_dashboard(request):
     return render(request, 'users/instructor_dashboard.html')
+
+
+
+def logoutUser(request):
+    logout(request)
+    return redirect('')
