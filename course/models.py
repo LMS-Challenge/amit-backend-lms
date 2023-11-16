@@ -6,6 +6,10 @@ from users.models import Instructor, Student
 def upload_to(instance, filename):
     return 'course/{filename}'.format(filename=filename)
 
+# def upload_to_assignments(instance, filename):
+#     return 'course/{self.course_id.course_name}/{self.module_name}'.format(filename=filename)
+
+
 
 CATEGORIES = [
     'Development',
@@ -32,8 +36,10 @@ class course(models.Model):
     course_credit_hours = models.IntegerField()
     course_price = models.IntegerField()
     certificate = models.TextField(default = "", null=True, blank=True)
-    img = models.ImageField(upload_to='course', blank=True, null=True) #pip install pillow
+    img = models.ImageField(upload_to=upload_to, blank=True, null=True) #pip install pillow
+    rating = models.PositiveSmallIntegerField(default=1, validators=[MaxValueValidator(5)])
     prerequisites = models.ManyToManyField('self', blank=True)
+    no_of_module=models.PositiveSmallIntegerField(default=1, validators=[MaxValueValidator(10)])
 
 
     def __str__(self):
@@ -43,30 +49,44 @@ class course(models.Model):
 class Content(models.Model):
     course = models.ForeignKey(course, on_delete=models.CASCADE, related_name='course_content')
     content_type = models.CharField(max_length=50) #video, pdf, text
-    file = models.FileField(upload_to='content_files/', blank=True, null=True)
-    description = models.TextField()
+    content = models.FileField(upload_to='content/', blank=True, null=True)
+    content_description = models.TextField()
 
     def __str__(self):
-        return self.description
+        return self.content_description
     
+
 class Assignment(models.Model):
-    course = models.ForeignKey(course, on_delete=models.CASCADE, related_name='course_assignment')
-    assignment_name = models.CharField(max_length=50)
-    assignment_description = models.TextField()
+    """ this class to allow student practice by solve assignments number of assignments is the same as number of modules in courses"""
+    students = models.ManyToManyField(Student, related_name='instructors_name')
+    course = models.ForeignKey(course, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    explain_assignments = models.TextField()
     assignment_file = models.FileField(upload_to='assignment_files/', blank=True, null=True)
-    assignment_deadline = models.DateTimeField()
+    due_date = models.DateTimeField()
 
     def __str__(self):
-        return self.assignment_name
+        return self.title
     
+
 class Quiz(models.Model):
     course = models.ForeignKey(course, on_delete=models.CASCADE, related_name='course_quiz')
-    quiz_name = models.CharField(max_length=50)
-    quiz_description = models.TextField()
+    quiz_title = models.CharField(max_length=50)
     quiz_deadline = models.DateTimeField()
+    #questions = models.ManyToManyField('Question')
+
 
     def __str__(self):
-        return self.quiz_name
+        return self.quiz_title
+
+
+# class Question(models.Model):
+#     text = models.TextField()
+#     options = models.JSONField()  # Store options as a JSON array
+#     correct_answer = models.PositiveIntegerField()
+
+#     def __str__(self):
+#         return self.text
 
 
 class Feedback(models.Model):
@@ -77,3 +97,7 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f"Feedback for {self.course.course_name} by {self.student}"
+
+
+
+

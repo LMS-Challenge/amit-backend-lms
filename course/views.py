@@ -4,6 +4,7 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
+from django.db.models import Count
 
 
 from .models import course, Content, Assignment, Quiz, Feedback
@@ -20,10 +21,13 @@ class CourseListView(generic.ListView):
     context_object_name = 'courses'
     template_name = 'course/course_list.html' 
 
+    def get_queryset(self):
+        # Use annotate to efficiently count the content for each course
+        return course.objects.annotate(lessons_count=Count('course_content'))
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        for course in context['courses']:
-            course.lessons_count = course.content.count()  # Assuming content has a lesson-like structure
+        # The lessons_count is now part of each course object, no need to iterate
         return context
 
 
@@ -64,3 +68,4 @@ def submit_feedback(request, course_id):
         Feedback.objects.create(course=course_obj, student=student, rating=rating, comment=comment)
         return redirect('course_detail', pk=course_id)  # Redirect to course detail page
     return render(request, 'course/feedback.html', {'course': course_obj})  # Specify your template name
+
