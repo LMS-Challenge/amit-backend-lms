@@ -89,14 +89,14 @@ class Quiz(models.Model):
 #         return self.text
 
 
-class Feedback(models.Model):
-    course = models.ForeignKey(course, on_delete=models.CASCADE, related_name='feedback')
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    rating = models.PositiveIntegerField(default=1, validators=[MaxValueValidator(5)])
-    comment = models.TextField(null=True, blank=True)
+# class Feedback(models.Model):
+#     course = models.ForeignKey(course, on_delete=models.CASCADE, related_name='feedback')
+#     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+#     rating = models.PositiveIntegerField(default=1, validators=[MaxValueValidator(5)])
+#     comment = models.TextField(null=True, blank=True)
 
-    def __str__(self):
-        return f"Feedback for {self.course.course_name} by {self.student}"
+#     def __str__(self):
+#         return f"Feedback for {self.course.course_name} by {self.student}"
 
 
 
