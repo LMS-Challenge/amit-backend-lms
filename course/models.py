@@ -31,26 +31,26 @@ class course(models.Model):
     def __str__(self):
         return self.course_name
 
-class Content(models.Model):
-    module_name = models.CharField(max_length=50)
-    content_description = models.TextField()
-    content = models.FileField(upload_to='upload_to_assignments', blank=True, null=True)
-    course_id = models.ForeignKey(course, on_delete=models.CASCADE, related_name='course_content')
+# class Content(models.Model):
+#     module_name = models.CharField(max_length=50)
+#     content_description = models.TextField()
+#     content = models.FileField(upload_to='upload_to_assignments', blank=True, null=True)
+#     course_id = models.ForeignKey(course, on_delete=models.CASCADE, related_name='course_content')
 
-    def __str__(self):
-        return self.content_name
+#     def __str__(self):
+#         return self.content_name
 
 
-class Assignment(models.Model):
-    """ this class to allow student practice by solve assignments number of assignments is the same as number of modules in courses"""
-    students = models.ManyToManyField(Student, related_name='instructors_name')
-    course = models.ForeignKey(course, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
-    explain_assignments = models.TextField()
-    due_date = models.DateTimeField()
+# class Assignment(models.Model):
+#     """ this class to allow student practice by solve assignments number of assignments is the same as number of modules in courses"""
+#     students = models.ManyToManyField(Student, related_name='instructors_name')
+#     course = models.ForeignKey(course, on_delete=models.CASCADE)
+#     title = models.CharField(max_length=100)
+#     explain_assignments = models.TextField()
+#     due_date = models.DateTimeField()
 
-    def __str__(self):
-        return self.title
+#     def __str__(self):
+#         return self.title
 
 
 # class Quiz(models.Model):

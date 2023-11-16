@@ -46,7 +46,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     # ists any additional fields required when creating a user.
     REQUIRED_FIELDS = []
 
+from django.contrib.auth.hashers import make_password
+
 class Instructor(CustomUser):
+    
   
     title = models.CharField(max_length=10, default='Dr.')
     name = models.CharField(max_length=50)
@@ -60,13 +63,15 @@ class Instructor(CustomUser):
         if not self.is_instructor:
             self.is_instructor = True
             self.is_staff = True  # Set is_staff to True for instructors
-            self.save()
+
+        # Hash the password before saving
+        self.password = make_password(self.password)
 
         super(Instructor, self).save(*args, **kwargs)
 
- 
     def __str__(self):
         return f"{self.title} {self.name}"
+
 
 class Student(CustomUser):
     # This model represents students.
