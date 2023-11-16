@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator
 
 from users.models import Instructor, Student
 from course.models import course
@@ -16,6 +17,10 @@ class offer(models.Model):
     price = models.BooleanField(default=False)
     discount = models.PositiveIntegerField(default=0)
     duration = models.DurationField(null=True, blank=True)
+    status = models.CharField(max_length=50, choices=[('Active', 'Active'), ('Expired', 'Expired'), ('Upcoming', 'Upcoming')], default='active')
 
     def __str__(self):
         return f"{self.course_id.course_name} {self.start_date} / {self.end_date}"
+    
+
+
