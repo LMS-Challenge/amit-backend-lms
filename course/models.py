@@ -11,16 +11,21 @@ def upload_to(instance, filename):
 
 
 
-CATEGORIES = [
-    'Development',
-    'Business',
-    'IT_and_Software',
-    'Data & Machine Learning',
-    'Design',
-    'Marketing',
-    'Cloud & DevOps',
-    'Cybersecurity',
-    'Life Skills',
+CATEGORY_CHOICES = [
+        ('development', 'Development'),
+        ('business', 'Business'),
+        ('it_and_software', 'IT and Software'),
+        ('data_machine_learning', 'Data & Machine Learning'),
+        ('design', 'Design'),
+        ('marketing', 'Marketing'),
+        ('cloud_devops', 'Cloud & DevOps'),
+        ('cybersecurity', 'Cybersecurity'),
+        ('life_skills', 'Life Skills'),
+    ]
+
+CERTIFICATE_CHOICES = [
+    ('completion', 'Upon Completion'),
+    ('none', 'No Certificate'),
 ]
 
 
@@ -28,18 +33,28 @@ CATEGORIES = [
 class course(models.Model):
     course_name = models.CharField(max_length=50)
     course_description = models.TextField()
-    category = models.CharField(max_length=50)
+    category = models.CharField(
+        max_length=50,
+        choices=CATEGORY_CHOICES,
+        default='development',
+    )
     content = models.ManyToManyField('Content', related_name='course_content')
     assignments = models.ManyToManyField('Assignment', related_name='course_assignment')
     quizzes = models.ManyToManyField('Quiz', related_name='course_quiz')
     instructors = models.ManyToManyField(Instructor, related_name='instructors_name')
     course_credit_hours = models.IntegerField()
     course_price = models.IntegerField()
-    certificate = models.TextField(default = "", null=True, blank=True)
-    img = models.ImageField(upload_to=upload_to, blank=True, null=True) #pip install pillow
+    certificate = models.CharField(
+        max_length=50,
+        choices=CERTIFICATE_CHOICES,
+        default='none',
+        blank=True,
+        null=True
+    )
+    course_image = models.ImageField(upload_to=upload_to, blank=True, null=True) #pip install pillow
     rating = models.PositiveSmallIntegerField(default=1, validators=[MaxValueValidator(5)])
     prerequisites = models.ManyToManyField('self', blank=True)
-    no_of_module=models.PositiveSmallIntegerField(default=1, validators=[MaxValueValidator(10)])
+    # no_of_module=models.PositiveSmallIntegerField(default=1, validators=[MaxValueValidator(10)])
 
 
     def __str__(self):
