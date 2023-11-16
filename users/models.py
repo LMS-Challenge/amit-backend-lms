@@ -79,3 +79,11 @@ class Student(CustomUser):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+    
+    @classmethod
+    def get_object_or_none(cls, **kwargs):
+        try:
+            return Student.objects.get(**kwargs)
+
+        except Student.DoesNotExist:
+            return None

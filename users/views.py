@@ -5,6 +5,8 @@ from django.core.validators import validate_email
 from django.contrib.auth.validators import ASCIIUsernameValidator
 from django.core.exceptions import ValidationError
 from .models import CustomUser  # Your custom user model
+from django.contrib import messages
+
 from .models import Student  # Import your Student model
 
 
@@ -70,6 +72,7 @@ def custom_login(request):
         password = request.POST.get('password')
         print(email)
         print(password)
+        
 
         # Authenticate the user based on email and password
         User = get_user_model()
@@ -80,7 +83,8 @@ def custom_login(request):
             # User exists and credentials are valid
             login(request, user)
             if user.is_instructor:
-                return redirect('/instructor/dashboard')  # Redirect to instructor dashboard
+                print('login Done successfully')
+                return redirect('instructor/dashboard')  # Redirect to instructor dashboard
             elif user.is_superuser and user.is_staff:
                 return redirect('/admin')  # Redirect to student dashboard
         else:
@@ -106,6 +110,23 @@ def student_signup(request):
         date_of_birth = request.POST.get('date_of_birth')
         gender =  request.POST.get('gender')
         profile_image =  request.POST.get('profile_image')
+        confirm_password = request.POST.get('confirm_password')
+        
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.error(request, "Please enter a correct email address!")
+            return redirect('signup')
+        
+       
+
+        if Student.get_object_or_none(email=email):
+            messages.error(request, 'Email already exists!')
+            return redirect('signup')
+
+        if password!=confirm_password:
+            messages.error(request, "Passwords don't match!")
+            return redirect('signup')
        
 
         # Create a new student user
