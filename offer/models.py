@@ -6,7 +6,7 @@ from course.models import course
 
 # Create your models here.
 class offer(models.Model):
-    course_id = models.ForeignKey(course, on_delete=models.CASCADE, related_name='course_offer')
+    course = models.ForeignKey(course, on_delete=models.CASCADE, related_name='course_offer')
     description = models.TextField()
     enrolled_students = models.ManyToManyField(Student, related_name='enrolled_students')
     max_capacity = models.PositiveIntegerField()

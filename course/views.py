@@ -19,7 +19,7 @@ def is_instructor_or_admin(user):
 class CourseListView(generic.ListView):
     model = course
     context_object_name = 'courses'
-    template_name = 'course/course_list.html' 
+    template_name = 'course_list.html' 
 
     def get_queryset(self):
         # Use annotate to efficiently count the content for each course
@@ -41,7 +41,7 @@ class CourseDetailView(generic.DetailView):
 @method_decorator(user_passes_test(is_instructor_or_admin), name='dispatch')
 class CourseCreateView(generic.CreateView):
     model = course
-    fields = '__all__'
+    fields = ['course_name', 'course_image', 'course_description', 'category', 'course_credit_hours', 'course_price', 'certificate', 'rating']
     template_name = 'course/course_form.html' 
 
 
