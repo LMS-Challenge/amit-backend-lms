@@ -1,0 +1,57 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<div class="course-detail">
+    <div class="card mb-3">
+        <!-- Course Image -->
+        {% if course.img %}
+        <img src="{{ course.img.url }}" class="card-img-top" alt="{{ course.course_name }}">
+        {% endif %}
+
+        <div class="card-body">
+            <h3 class="card-title">{{ course.course_name }}</h3>
+            <p class="card-text">{{ course.course_description }}</p>
+            
+            <!-- Course Details -->
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Category: {{ course.category }}</li>
+                <li class="list-group-item">Credit Hours: {{ course.course_credit_hours }}</li>
+                <li class="list-group-item">Price: {{ course.course_price }}</li>
+                <li class="list-group-item">
+                    Instructors: 
+                    {% for instructor in course.instructors.all %}
+                    {{ instructor.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </li>
+                <!-- Add more details as needed -->
+            </ul>
+
+            <div class="card-footer text-muted">
+                <!-- Back to course list or other actions -->
+                <a href="{% url 'course_list' %}" class="btn btn-primary">Back to Courses</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Content, Assignments, Quizzes, etc. -->
+    <div class="related-content">
+        <h4>Content</h4>
+        <!-- List the content items here -->
+        {% for content in course.course_content.all %}
+        <p>{{ content.description }}</p>
+        {% endfor %}
+
+        <h4>Assignments</h4>
+        <!-- List the assignments here -->
+        {% for assignment in course.course_assignment.all %}
+        <p>{{ assignment.assignment_name }} - Due: {{ assignment.assignment_deadline }}</p>
+        {% endfor %}
+
+        <h4>Quizzes</h4>
+        <!-- List the quizzes here -->
+        {% for quiz in course.course_quiz.all %}
+        <p>{{ quiz.quiz_name }} - Due: {{ quiz.quiz_deadline }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
