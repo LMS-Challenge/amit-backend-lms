@@ -30,8 +30,7 @@ urlpatterns = [
     # path('api_schema', get_schema_view(title="LMS API", version="1.0.0", description="API for all things …"), name='api_schema'),
     path('admin/', admin.site.urls),
     path('api/schema/', SpectacularAPIView.as_view(), name='api-schema'),
-    path(
-        'api/docs/', SpectacularSwaggerView.as_view(url_name='api-schema'), name='api-docs'),
+    path('api/docs/', SpectacularSwaggerView.as_view(url_name='api-schema'), name='api-docs'),
     path('api/users/', include('users.urls')),  
     path('api/course/', include('course.urls')),
 ]
