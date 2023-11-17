@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.hashers import make_password
+
 
 
 def upload_to(instance, filename):
@@ -13,7 +15,6 @@ GENDER_CHOICES = [
 class CustomUserManager(BaseUserManager):
     
     # It provides methods for creating users and superusers.
-    
     def create_user(self, email, password=None, **extra_fields):
         
         # method creates a regular user with the given email and password.
@@ -31,6 +32,7 @@ class CustomUserManager(BaseUserManager):
         user.save()
         return user
 
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     # It represents our custom user model with basic fields.
     
@@ -46,11 +48,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     # ists any additional fields required when creating a user.
     REQUIRED_FIELDS = []
 
-from django.contrib.auth.hashers import make_password
 
 class Instructor(CustomUser):
     
-  
     title = models.CharField(max_length=10, default='Dr.')
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
@@ -92,3 +92,4 @@ class Student(CustomUser):
 
         except Student.DoesNotExist:
             return None
+

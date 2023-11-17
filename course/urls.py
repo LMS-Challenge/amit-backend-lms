@@ -8,11 +8,11 @@ from rest_framework.routers import DefaultRouter
 from .api import CourseViewSet, ContentViewSet, AssignmentViewSet, QuizViewSet, FeedbackViewSet
 
 router = DefaultRouter()
-router.register(r'course', CourseViewSet, basename='course')
-router.register(r'content', ContentViewSet, basename='content')
-router.register(r'assignment', AssignmentViewSet, basename='assignment')
-router.register(r'quiz', QuizViewSet, basename='quiz')
-router.register(r'feedback', FeedbackViewSet, basename='feedback')
+router.register('course', CourseViewSet, basename='course')
+router.register('content', ContentViewSet, basename='content')
+router.register('assignment', AssignmentViewSet, basename='assignment')
+router.register('quiz', QuizViewSet, basename='quiz')
+router.register('feedback', FeedbackViewSet, basename='feedback')
 
 urlpatterns = [
     path('api/', include(router.urls)),
