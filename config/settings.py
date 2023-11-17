@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Third party apps
+    'rest_framework',
+    'drf_spectacular',
 
     # Local apps
     'course',
@@ -140,3 +142,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # django_project/settings.py
 # LOGIN_REDIRECT_URL = "home"
 # LOGOUT_REDIRECT_URL = "login/"
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
