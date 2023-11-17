@@ -86,7 +86,6 @@ class Quiz(models.Model):
     quiz_deadline = models.DateTimeField()
     #questions = models.ManyToManyField('Question')
 
-
     def __str__(self):
         return self.quiz_title
 
