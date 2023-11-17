@@ -137,7 +137,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/' )
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-
+ALLOWED_HOSTS = ['*']
 
 # django_project/settings.py
 # LOGIN_REDIRECT_URL = "home"
