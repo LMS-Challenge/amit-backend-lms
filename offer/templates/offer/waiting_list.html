@@ -1,0 +1,14 @@
+{% extends '_base.html' %}
+
+{% block title %}Waiting List{% endblock %}
+
+{% block content %}
+    <h1>Waiting List</h1>
+    <ul>
+        {% for student in waiting_list_students %}
+            <li>{{ student.first_name }} {{ student.last_name }}</li>
+        {% empty %}
+            <li>No students on the waiting list.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

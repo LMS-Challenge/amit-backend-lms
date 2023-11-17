@@ -1,0 +1,14 @@
+{% extends '_base.html' %}
+
+{% block title %}Offer List{% endblock %}
+
+{% block content %}
+    <h1>Offer List</h1>
+    <ul>
+        {% for offer in offers %}
+            <li><a href="{% url 'offer:offer_detail' offer.id %}">{{ offer.course.name }} ({{ offer.start_date }} - {{ offer.end_date }})</a></li>
+        {% empty %}
+            <li>No offers available.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
