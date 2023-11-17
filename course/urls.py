@@ -1,10 +1,21 @@
-from django.urls import path
+from django.urls import path, include
 from .views import (
     CourseListView, CourseDetailView, CourseCreateView, CourseUpdateView,
     CourseDeleteView, ContentCreateView, AssignmentCreateView, QuizCreateView, submit_feedback
 )
+from rest_framework import routers
+from rest_framework.routers import DefaultRouter
+from .api import CourseViewSet, ContentViewSet, AssignmentViewSet, QuizViewSet, FeedbackViewSet
+
+router = DefaultRouter()
+router.register(r'course', CourseViewSet, basename='course')
+router.register(r'content', ContentViewSet, basename='content')
+router.register(r'assignment', AssignmentViewSet, basename='assignment')
+router.register(r'quiz', QuizViewSet, basename='quiz')
+router.register(r'feedback', FeedbackViewSet, basename='feedback')
 
 urlpatterns = [
+    path('api/', include(router.urls)),
     path('', CourseListView.as_view(), name='course_list'),
     path('<int:pk>/', CourseDetailView.as_view(), name='course_detail'),
     path('add/', CourseCreateView.as_view(), name='course_add'),
