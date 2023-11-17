@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     # Third party apps
     'rest_framework',
     'drf_spectacular',
-    'django_filters',
 
     # Local apps
     'course',
