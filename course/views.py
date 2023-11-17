@@ -31,6 +31,7 @@ class CourseListView(generic.ListView):
         return context
 
 
+
 class CourseDetailView(generic.DetailView):
     model = course
     context_object_name = 'course'
