@@ -1,0 +1,11 @@
+{% extends '_base.html' %}
+
+{% block title %}Offer Detail{% endblock %}
+
+{% block content %}
+    <h1>Offer Detail</h1>
+    <p>Description: {{ offer_detail.description }}</p>
+    <p>Start Date: {{ offer_detail.start_date }}</p>
+    <p>End Date: {{ offer_detail.end_date }}</p>
+    <p>Price: {{ offer_detail.price }}</p>
+{% endblock %}
