@@ -6,57 +6,9 @@ from django.contrib.auth.validators import ASCIIUsernameValidator
 from django.core.exceptions import ValidationError
 from .models import CustomUser  # Your custom user model
 from django.contrib import messages
-
 from .models import Student  # Import your Student model
-
-
-# Create your views here.
-# def register(request):
-#     if request.user.is_authenticated and request.user.is_instructor:
-#         return redirect('home')
-        
-#     if request.POST:
-#         user_name=request.POST.get('username')
-#         email=request.POST.get('email')
-#         password=request.POST.get('password')
-#         confirm_password=request.POST.get('confirm_password')
-
-#         try:
-#             validate_email(email)
-#         except ValidationError:
-#             messages.error(request, "Please enter a correct email address!")
-#             return redirect('register')
-        
-#         try:
-#             validator=ASCIIUsernameValidator()
-#             validator(user_name)
-#         except:
-#             messages.error(request, ASCIIUsernameValidator.message)
-#             return redirect('register')
-        
-#         if User.get_object_or_none(username=user_name):
-#             messages.error(request, 'Username already exists')
-#             return redirect('register')
-
-#         if User.get_object_or_none(email=email):
-#             messages.error(request, 'Email already exists!')
-#             return redirect('register')
-
-#         if password!=confirm_password:
-#             messages.error(request, "Passwords don't match!")
-#             return redirect('register')
-
-#         user=User.objects.create(username=user_name, email=email)
-#         user.set_password(password)
-#         user.save()
-#         messages.success(request, 'Account Created successfully!')
-#         return redirect('login')
-    
-    # else:
-    #     return render(request, 'user_interface/registeration.html')
-
 from django.contrib.auth import authenticate, login, get_user_model
-from django.shortcuts import redirect, render
+
 
 def custom_login(request):
     if request.user.is_authenticated:
