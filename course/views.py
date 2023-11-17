@@ -59,6 +59,24 @@ class CourseDeleteView(generic.DeleteView):
     template_name = 'course/course_confirm_delete.html'
 
 
+class ContentCreateView(generic.CreateView):
+    model = Content
+    fields = ['content', 'content_description']
+    template_name = 'course/content_form.html'
+
+
+class AssignmentCreateView(generic.CreateView):
+    model = Assignment
+    fields = ['title', 'explain_assignments', 'assignment_file', 'due_date']
+    template_name = 'course/assignment_form.html'
+
+
+class QuizCreateView(generic.CreateView):
+    model = Quiz
+    fields = ['quiz_title', 'quiz_deadline']
+    template_name = 'course/quiz_form.html'
+
+
 def submit_feedback(request, course_id):
     course_obj = get_object_or_404(course, pk=course_id)
     if request.method == 'POST':
