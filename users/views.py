@@ -47,11 +47,6 @@ def custom_login(request):
 
     return render(request, 'users/login.html')
 
-
-
-
-
-
 def student_signup(request):
     if request.method == 'POST':
         # Other student-specific fields as needed
@@ -101,17 +96,11 @@ def student_signup(request):
 
     return render(request, 'users/signup.html')
 
-
-
 def student_dashboard(request):
     return render(request, 'users/student_dashboard.html')
 
-
-
 def instructor_dashboard(request):
     return render(request, 'users/instructor_dashboard.html')
-
-
 
 def logoutUser(request):
     logout(request)
