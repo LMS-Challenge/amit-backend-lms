@@ -1,6 +1,7 @@
-{% extends '_base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
+
 {% if user.is_authenticated and (user.is_instructor or user.is_staff) %}
 <div class="container mt-4">
     <h2>{% if form.instance.pk %}Edit Course{% else %}Create Course{% endif %}</h2>
@@ -16,4 +17,5 @@
     You do not have permission to view this page.
 </div>
 {% endif %}
+
 {% endblock %}

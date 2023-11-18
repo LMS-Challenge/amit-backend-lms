@@ -1,0 +1,24 @@
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-img-top {
+    height: 200px; /* Fixed height for uniformity */
+    object-fit: cover; /* Ensure the image covers the area */
+}
+
+.card-footer {
+    background-color: #fff;
+}
+
+.btn-primary {
+    margin-right: 5px;
+}
+
+.btn-success {
+    background-color: #28a745;
+}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ course.course_name }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8">
+      <h2>{{ course.course_name }}</h2>
+      <p>{{ course.course_description }}</p>
+      <p>Duration: {{ course.duration }}</p>
+      <p>Lessons: {{ course.lessons_count }}</p>
+      <p>Category: {{ course.category }}</p>
+      <p>Created by: {{ course.instructor }}</p>
+      <p>Created on: {{ course.created_on }}</p>
+      <p>Updated on: {{ course.updated_on }}</p>
+      <a href="{% url 'course_feedback' course.id %}" class="btn btn-primary">Feedback</a>
+    </div>
+    <div class="col-md-4">
+      <img src="{{ course.img.url }}" class="img-fluid" alt="Course Image">
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+    <style>
+      body {
+          padding-top: 20px;
+      }
+      .course-card {
+          border: none;
+          border-radius: 10px;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+          overflow: hidden;
+      }
+      .course-card img {
+          height: 200px;
+          object-fit: cover;
+      }
+      .card-body {
+          background-color: #f8f9fa;
+      }
+      .card-footer {
+          background-color: #e9ecef;
+          border-top: none;
+      }
+      .btn-primary, .btn-secondary {
+          margin-right: 5px;
+      }
+      /* Additional styles can be added here */
+    </style>

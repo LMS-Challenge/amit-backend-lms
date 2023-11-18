@@ -30,9 +30,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/schema/', SpectacularAPIView.as_view(), name='api-schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='api-schema'), name='api-docs'),
-    path('api/users/', include('users.urls')),
     path('api/course/', include('course.urls')),
+    path('api/users/', include('users.urls')),
     path('api/offer/', include('offer.urls')),
+    path('', RedirectView.as_view(url='api/docs/')),
 ]
 
 if settings.DEBUG:

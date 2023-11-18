@@ -1,31 +1,41 @@
-{% extends '_base.html' %} 
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Courses{% endblock %}
 
 {% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/course_list.css' %}">
+
 <div class="container mt-5">
-  <div class="row">
-    <!-- Loop through the courses -->
-    {% for course in courses %}
-    <div class="col-md-6 mb-4">
-      <div class="card course-card">
-        <img src="{{ course.img.url }}" class="card-img-top" alt="Course Image">
-        <div class="card-body">
-          <h5 class="card-title">{{ course.course_name }}</h5>
-          <p class="card-text">{{ course.course_description }}</p>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Duration: {{ course.duration }}</li>
-            <li class="list-group-item">Lessons: {{ course.lessons_count }}</li>
-          </ul>
-          <div class="card-body">
-            <a href="{% url 'course_detail' course.id %}" class="btn btn-primary">Course Details</a>
-            <a href="#" class="btn btn-secondary">Start Learning</a>
-          </div>
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img class="card-img-top" src="{{ course.course_image.url }}" alt="{{ course.course_name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ course.course_name }}</h5>
+                    <p class="card-text">{{ course.course_description }}</p>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col">
+                            <i class="fas fa-clock"></i> {{ course.duration }} Hours
+                        </div>
+                        <div class="col">
+                            <i class="fas fa-book-open"></i> {{ course.lessons_count }} Lessons
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{% url 'course_detail' course.id %}" class="btn btn-primary">Course Details</a>
+                    <a href="#" class="btn btn-success">Start Learning</a>
+                </div>
+            </div>
         </div>
-        <div class="card-footer">
-          <small class="text-muted">{{ course.category }}</small>
-        </div>
-      </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-  </div>
 </div>
+
 {% endblock %}
