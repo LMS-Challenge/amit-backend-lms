@@ -20,4 +20,4 @@ class offer(models.Model):
     status = models.CharField(max_length=50, choices=[('Active', 'Active'), ('Expired', 'Expired'), ('Upcoming', 'Upcoming')], default='active')
 
     def __str__(self):
-        return f"{self.course_id.course_name} {self.start_date} / {self.end_date}"
+        return f"{self.course.course_name}'s Offer is available from {self.start_date} To {self.end_date}"
