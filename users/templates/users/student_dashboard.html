@@ -1,4 +1,10 @@
-<h2>welcome to student page
-{% if user.is_authenticated %}
-<h4>My  email :  {{ user }}. <h4>
-{% endif %}</h2>
+{% extends base.html %}
+
+<title>{% block title %}Student Dashboard{% endblock %}</title>
+
+{% block content %}
+
+<h2>Welcome to the Student Dashboard</h2>
+<!-- Content specific to the student -->
+
+{% endblock %}

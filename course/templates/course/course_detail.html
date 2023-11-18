@@ -1,4 +1,4 @@
-{% extends '_base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 <div class="course-detail">
@@ -11,14 +11,14 @@
         <div class="card-body">
             <h3 class="card-title">{{ course.course_name }}</h3>
             <p class="card-text">{{ course.course_description }}</p>
-            
+
             <!-- Course Details -->
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Category: {{ course.category }}</li>
                 <li class="list-group-item">Credit Hours: {{ course.course_credit_hours }}</li>
                 <li class="list-group-item">Price: {{ course.course_price }}</li>
                 <li class="list-group-item">
-                    Instructors: 
+                    Instructors:
                     {% for instructor in course.instructors.all %}
                     {{ instructor.name }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}
@@ -32,7 +32,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Content, Assignments, Quizzes, etc. -->
     <div class="related-content">
         <h4>Content</h4>
