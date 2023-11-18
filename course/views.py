@@ -9,8 +9,7 @@ from django.db.models import Count
 
 from .models import course, Content, Assignment, Quiz, Feedback
 
-# Create your views here. 
-
+# Create your views here.
 
 def is_instructor_or_admin(user):
     return user.is_instructor or user.is_admin
@@ -19,7 +18,7 @@ def is_instructor_or_admin(user):
 class CourseListView(generic.ListView):
     model = course
     context_object_name = 'courses'
-    template_name = 'course_list.html' 
+    template_name = 'course_list.html'
 
     def get_queryset(self):
         # Use annotate to efficiently count the content for each course
@@ -35,7 +34,7 @@ class CourseListView(generic.ListView):
 class CourseDetailView(generic.DetailView):
     model = course
     context_object_name = 'course'
-    template_name = 'course/course_detail.html'  
+    template_name = 'course/course_detail.html'
 
 
 @method_decorator(login_required, name='dispatch')
@@ -43,7 +42,7 @@ class CourseDetailView(generic.DetailView):
 class CourseCreateView(generic.CreateView):
     model = course
     fields = ['course_name', 'course_image', 'course_description', 'category', 'course_credit_hours', 'course_price', 'certificate', 'rating']
-    template_name = 'course/course_form.html' 
+    template_name = 'course/course_form.html'
 
 
 @method_decorator(login_required, name='dispatch')
@@ -51,7 +50,7 @@ class CourseCreateView(generic.CreateView):
 class CourseUpdateView(generic.UpdateView):
     model = course
     fields = ['content', 'assignments', 'quizzes', 'course_price', 'img', 'prerequisites']
-    template_name = 'course/course_form.html' 
+    template_name = 'course/course_form.html'
 
 
 class CourseDeleteView(generic.DeleteView):
@@ -78,13 +77,13 @@ class QuizCreateView(generic.CreateView):
     template_name = 'course/quiz_form.html'
 
 
-def submit_feedback(request, course_id):
-    course_obj = get_object_or_404(course, pk=course_id)
+def submit_feedback(request, pk):
+    course_obj = get_object_or_404(course, pk=pk)
     if request.method == 'POST':
         rating = request.POST.get('rating')
         comment = request.POST.get('comment')
         student = request.user  # Assuming the user is a Student
         Feedback.objects.create(course=course_obj, student=student, rating=rating, comment=comment)
-        return redirect('course_detail', pk=course_id)  # Redirect to course detail page
+        return redirect('course_detail', pk=pk)  # Redirect to course detail page
     return render(request, 'course/feedback.html', {'course': course_obj})  # Specify your template name
 
