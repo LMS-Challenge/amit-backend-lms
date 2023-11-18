@@ -43,7 +43,7 @@ class OfferCreateView(UserPassesTestMixin, View):
                 max_capacity = request.POST.get('max_capacity'),
                 start_date = request.POST.get('start_date'),
                 end_date = request.POST.get('end_date'),
-                price = request.POST.get('price'),
+                new_price = request.POST.get('new_price'),
                 discount = request.POST.get('discount'),
                 duration = request.POST.get('duration'),
             )
@@ -65,7 +65,7 @@ class OfferUpdateView(UserPassesTestMixin, View):
             offer_obj.max_capacity = request.POST.get('max_capacity')
             offer_obj.start_date = request.POST.get('start_date')
             offer_obj.end_date = request.POST.get('end_date')
-            offer_obj.price = request.POST.get('price')
+            offer_obj.new_price = request.POST.get('new_price')
             offer_obj.discount = request.POST.get('discount')
             offer_obj.duration = request.POST.get('duration')
             offer_obj.save()
