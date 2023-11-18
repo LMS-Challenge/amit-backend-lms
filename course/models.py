@@ -4,7 +4,7 @@ from django.core.validators import MaxValueValidator
 from users.models import Instructor, Student
 
 def upload_to(instance, filename):
-    return 'course/{course_id}/{filename}'.format(filename=filename)
+    return 'course/{filename}'.format(filename=filename)
 
 # def upload_to_assignments(instance, filename):
 #     return 'course/{self.course_id.course_name}/{self.module_name}'.format(filename=filename)
@@ -48,6 +48,7 @@ class course(models.Model):
         blank=True,
         null=True
     )
+    duration = models.PositiveIntegerField(default=8)
     course_image = models.ImageField(upload_to=upload_to, blank=True, null=True) #pip install pillow
     rating = models.PositiveSmallIntegerField(default=1, validators=[MaxValueValidator(5)])
     # prerequisites = models.ManyToManyField('self', blank=True)
@@ -65,7 +66,7 @@ class Content(models.Model):
 
     def __str__(self):
         return self.content_description
-    
+
 
 class Assignment(models.Model):
     """ this class to allow student practice by solve assignments number of assignments is the same as number of modules in courses"""
@@ -78,7 +79,7 @@ class Assignment(models.Model):
 
     def __str__(self):
         return self.title
-    
+
 
 class Quiz(models.Model):
     course = models.ForeignKey(course, on_delete=models.CASCADE, related_name='course_quiz')
@@ -107,7 +108,4 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f"Feedback for {self.course.course_name} by {self.student}"
-
-
-
 
