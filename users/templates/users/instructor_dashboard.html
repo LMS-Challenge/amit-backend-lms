@@ -1,3 +1,10 @@
-welcome to instructor page .
+{% extends "base.html" %}
 
-{% if user.is_authenticated %}Hello,{{ {{ user.student.title }} }} {{ user.username }}.{% endif %}
+<title>{% block title %}Instructor Dashboard{% endblock %}</title>
+
+{% block content %}
+
+<h2>Welcome to the Instructor Dashboard</h2>
+<!-- Content specific to the instructor -->
+
+{% endblock %}
