@@ -33,6 +33,7 @@ urlpatterns = [
     path('api/course/', include('course.urls')),
     path('api/users/', include('users.urls')),
     path('api/offer/', include('offer.urls')),
+    path('', RedirectView.as_view(url='api/docs/')),
 ]
 
 if settings.DEBUG:
