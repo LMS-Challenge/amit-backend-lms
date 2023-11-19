@@ -51,7 +51,7 @@ class CourseCreateView(generic.CreateView):
 @method_decorator(user_passes_test(is_instructor_or_superuser), name='dispatch')
 class CourseUpdateView(generic.UpdateView):
     model = course
-    fields = ['content', 'assignments', 'quizzes', 'course_price', 'img', 'prerequisites']
+    fields = ['course_description', 'instructors','course_price', 'rating']
     template_name = 'course/course_form.html'
     success_url = reverse_lazy('course_detail')
 
