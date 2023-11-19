@@ -53,7 +53,9 @@ class CourseUpdateView(generic.UpdateView):
     model = course
     fields = ['course_description', 'instructors','course_price', 'rating']
     template_name = 'course/course_form.html'
-    success_url = reverse_lazy('course_detail')
+
+    def get_success_url(self):
+        return reverse_lazy('course_detail', kwargs={'pk': self.object.pk})
 
 
 class CourseDeleteView(generic.DeleteView):
