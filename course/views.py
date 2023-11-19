@@ -43,6 +43,8 @@ class CourseCreateView(generic.CreateView):
     model = course
     fields = ['course_name', 'course_image', 'course_description', 'category', 'course_credit_hours', 'course_price', 'certificate', 'rating']
     template_name = 'course/course_form.html'
+    success_url = reverse_lazy('course_list')
+
 
 
 @method_decorator(login_required, name='dispatch')
@@ -51,30 +53,35 @@ class CourseUpdateView(generic.UpdateView):
     model = course
     fields = ['content', 'assignments', 'quizzes', 'course_price', 'img', 'prerequisites']
     template_name = 'course/course_form.html'
+    success_url = reverse_lazy('course_detail')
 
 
 class CourseDeleteView(generic.DeleteView):
     model = course
     success_url = reverse_lazy('course_list')  # Redirect to the course list after deletion
     template_name = 'course/course_confirm_delete.html'
+    success_url = reverse_lazy('course_list')
 
 
 class ContentCreateView(generic.CreateView):
     model = Content
     fields = ['content', 'content_description']
     template_name = 'course/content_form.html'
+    success_url = reverse_lazy('course_detail')
 
 
 class AssignmentCreateView(generic.CreateView):
     model = Assignment
     fields = ['title', 'explain_assignments', 'assignment_file', 'due_date']
     template_name = 'course/assignment_form.html'
+    success_url = reverse_lazy('course_detail')
 
 
 class QuizCreateView(generic.CreateView):
     model = Quiz
     fields = ['quiz_title', 'quiz_deadline']
     template_name = 'course/quiz_form.html'
+    success_url = reverse_lazy('course_detail')
 
 
 def submit_feedback(request, pk):
