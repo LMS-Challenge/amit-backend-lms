@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <div class="course-detail">
     <div class="card mb-3">
         <!-- Course Image -->
-        {% if course.img %}
-        <img src="{{ course.img.url }}" class="card-img-top" alt="{{ course.course_name }}">
+        {% if course.course_image %}
+        <img src="{{ course.course_image.url }}" class="card-img-top" alt="{{ course.course_name }}">
         {% endif %}
 
         <div class="card-body">
@@ -27,7 +28,9 @@
             </ul>
 
             <div class="card-footer text-muted">
-                <!-- Back to course list or other actions -->
+                <!-- Update Course button -->
+                <a href="{% url 'course_update' pk=course.pk %}" class="btn btn-secondary">Update Course</a>
+                <!-- Back to course list button -->
                 <a href="{% url 'course_list' %}" class="btn btn-primary">Back to Courses</a>
             </div>
         </div>
@@ -37,21 +40,22 @@
     <div class="related-content">
         <h4>Content</h4>
         <!-- List the content items here -->
-        {% for content in course.course_content.all %}
+        {% for content in course.content_set.all %}
         <p>{{ content.description }}</p>
         {% endfor %}
 
         <h4>Assignments</h4>
         <!-- List the assignments here -->
-        {% for assignment in course.course_assignment.all %}
-        <p>{{ assignment.assignment_name }} - Due: {{ assignment.assignment_deadline }}</p>
+        {% for assignment in course.assignment_set.all %}
+        <p>{{ assignment.title }} - Due: {{ assignment.due_date }}</p>
         {% endfor %}
 
         <h4>Quizzes</h4>
         <!-- List the quizzes here -->
-        {% for quiz in course.course_quiz.all %}
-        <p>{{ quiz.quiz_name }} - Due: {{ quiz.quiz_deadline }}</p>
+        {% for quiz in course.quiz_set.all %}
+        <p>{{ quiz.title }} - Due: {{ quiz.deadline }}</p>
         {% endfor %}
     </div>
 </div>
+
 {% endblock %}
