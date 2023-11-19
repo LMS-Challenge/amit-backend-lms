@@ -7,6 +7,7 @@ from .models import offer, course
 class OfferAdmin(admin.ModelAdmin):
     list_display = ('course', 'original_price', 'discounted_price', 'new_price', 'start_date', 'end_date', 'status')
     readonly_fields = ('original_price', 'discounted_price',)
+    list_filter = ('status',)
 
     def original_price(self, obj):
         # Assuming there is a foreign key from Offer to Course named 'course'
