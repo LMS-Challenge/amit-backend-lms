@@ -13,7 +13,12 @@
         {% for course in courses %}
         <div class="col-md-4 mb-4">
             <div class="card h-100">
-                <img class="card-img-top" src="{{ course.course_image.url }}" alt="{{ course.course_name }}">
+                {% if course.course_image %}
+                    <img class="card-img-top" src="{{ course.course_image.url }}" alt="{{ course.course_name }}">
+                {% else %}
+                    <!-- Display a default image or nothing if no image is available -->
+                    <img class="card-img-top" src="{% static 'static/images/default_course.png' %}" alt="Default Image">
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ course.course_name }}</h5>
                     <p class="card-text">{{ course.course_description }}</p>
