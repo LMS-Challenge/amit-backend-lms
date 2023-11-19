@@ -8,5 +8,5 @@ class OfferSerializer(serializers.ModelSerializer):
         model = offer
         fields = ['id', 'course', 'description', 'enrolled_students',
                 'max_capacity', 'current_enrollment', 'waiting_list',
-                'start_date', 'end_date', 'price', 'discount', 'duration', 'status'
+                'start_date', 'end_date', 'new_price', 'discount', 'duration', 'status'
         ]

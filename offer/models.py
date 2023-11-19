@@ -14,7 +14,7 @@ class offer(models.Model):
     waiting_list = models.ManyToManyField(Student, related_name='waiting_list_offers', blank=True)
     start_date = models.DateField()
     end_date = models.DateField()
-    price = models.BooleanField(default=False)
+    new_price = models.BooleanField(default=False)
     discount = models.PositiveIntegerField(default=0)
     duration = models.DurationField(null=True, blank=True)
     status = models.CharField(max_length=50, choices=[('Active', 'Active'), ('Expired', 'Expired'), ('Upcoming', 'Upcoming')], default='active')
