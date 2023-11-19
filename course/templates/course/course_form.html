@@ -2,20 +2,62 @@
 
 {% block content %}
 
-{% if user.is_authenticated and (user.is_instructor or user.is_staff) %}
 <div class="container mt-4">
-    <h2>{% if form.instance.pk %}Edit Course{% else %}Create Course{% endif %}</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">{% if form.instance.pk %}Save Changes{% else %}Create{% endif %}</button>
-        <a href="{% url 'course_list' %}" class="btn btn-secondary">Cancel</a>
-    </form>
+    <h2 class="text-center">{% if form.instance.pk %}Edit Course{% else %}Create Course{% endif %}</h2>
+    <div class="form-card">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">{% if form.instance.pk %}Save Changes{% else %}Create{% endif %}</button>
+            <a href="{% url 'course_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
 </div>
-{% else %}
-<div class="alert alert-danger" role="alert">
+<!-- <div class="alert alert-danger" role="alert">
     You do not have permission to view this page.
-</div>
-{% endif %}
+</div> -->
+
+<style>
+    .text-center {
+        text-align: center;
+    }
+
+    .form-card {
+        background: #ffffff;
+        border-radius: 0.25rem;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        padding: 2rem;
+        margin-top: 1rem;
+    }
+
+    .alert {
+        margin-top: 1rem;
+    }
+
+    /* If you want to style the form fields individually */
+    .form-card form p {
+        margin-bottom: 1rem;
+    }
+
+    .form-card form label {
+        font-weight: bold;
+    }
+
+    .form-card form input[type='text'],
+    .form-card form input[type='email'],
+    .form-card form input[type='password'],
+    .form-card form select,
+    .form-card form textarea {
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+    }
+
+    /* Style the buttons */
+    .form-card form button {
+        margin-right: 0.5rem;
+    }
+</style>
 
 {% endblock %}
