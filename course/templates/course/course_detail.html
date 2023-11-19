@@ -30,6 +30,8 @@
             <div class="card-footer text-muted">
                 <!-- Update Course button -->
                 <a href="{% url 'course_update' pk=course.pk %}" class="btn btn-secondary">Update Course</a>
+                <!-- Delete Course button -->
+                <a href="{% url 'course_delete' pk=course.pk %}" class="btn btn-danger">Delete Course</a>
                 <!-- Back to course list button -->
                 <a href="{% url 'course_list' %}" class="btn btn-primary">Back to Courses</a>
             </div>
