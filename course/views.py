@@ -11,8 +11,8 @@ from .models import course, Content, Assignment, Quiz, Feedback
 
 # Create your views here.
 
-def is_instructor_or_admin(user):
-    return user.is_instructor or user.is_admin
+def is_instructor_or_superuser(user):
+    return user.is_instructor or user.is_superuser
 
 
 class CourseListView(generic.ListView):
@@ -38,7 +38,7 @@ class CourseDetailView(generic.DetailView):
 
 
 @method_decorator(login_required, name='dispatch')
-@method_decorator(user_passes_test(is_instructor_or_admin), name='dispatch')
+@method_decorator(user_passes_test(is_instructor_or_superuser), name='dispatch')
 class CourseCreateView(generic.CreateView):
     model = course
     fields = ['course_name', 'course_image', 'course_description', 'category', 'course_credit_hours', 'course_price', 'certificate', 'rating']
@@ -46,7 +46,7 @@ class CourseCreateView(generic.CreateView):
 
 
 @method_decorator(login_required, name='dispatch')
-@method_decorator(user_passes_test(is_instructor_or_admin), name='dispatch')
+@method_decorator(user_passes_test(is_instructor_or_superuser), name='dispatch')
 class CourseUpdateView(generic.UpdateView):
     model = course
     fields = ['content', 'assignments', 'quizzes', 'course_price', 'img', 'prerequisites']
