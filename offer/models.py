@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator
+from django.core.exceptions import ValidationError
 
 from users.models import Student
 from course.models import course
@@ -18,6 +19,15 @@ class offer(models.Model):
     discount = models.PositiveIntegerField(default=0)
     duration = models.DurationField(null=True, blank=True)
     status = models.CharField(max_length=50, choices=[('Active', 'Active'), ('Expired', 'Expired'), ('Upcoming', 'Upcoming')], default='active')
+
+    def clean(self):
+        # Ensure the course is set before checking its price
+        if not self.course:
+            raise ValidationError({'course': "Course must be set to validate discount."})
+        # Set the maximum discount to be the course price
+        max_discount = self.course.course_price
+        if self.discount > max_discount:
+            raise ValidationError({'discount': f"Discount cannot be greater than the course price (${max_discount})."})
 
     def __str__(self):
         return f"{self.course.course_name}'s Offer is available from {self.start_date} To {self.end_date}"
