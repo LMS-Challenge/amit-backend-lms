@@ -85,6 +85,8 @@ class Quiz(models.Model):
     course = models.ForeignKey(course, on_delete=models.CASCADE, related_name='course_quiz')
     quiz_title = models.CharField(max_length=50)
     quiz_deadline = models.DateTimeField()
+    quiz = models.FileField(upload_to=upload_to, blank=True, null=True)
+    url = models.URLField(blank=True, null=True)
     #questions = models.ManyToManyField('Question')
 
     def __str__(self):
