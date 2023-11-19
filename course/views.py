@@ -65,11 +65,54 @@ class CourseDeleteView(generic.DeleteView):
     success_url = reverse_lazy('course_list')
 
 
+
+class ContentListView(generic.ListView):
+    model = Content
+    context_object_name = 'contents'
+    template_name = 'course/content_list.html'
+
+    def get_queryset(self):
+        return Content.objects.filter(course=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = get_object_or_404(course, pk=self.kwargs['pk'])
+        return context
+
+
 class ContentCreateView(generic.CreateView):
     model = Content
     fields = ['content', 'content_description']
     template_name = 'course/content_form.html'
     success_url = reverse_lazy('course_detail')
+
+
+class ContentUpdateView(generic.UpdateView):
+    model = Content
+    fields = ['content', 'content_description']
+    template_name = 'course/content_form.html'
+    success_url = reverse_lazy('course_detail')
+
+
+class ContentDeleteView(generic.DeleteView):
+    model = Content
+    template_name = 'course/content_confirm_delete.html'
+    success_url = reverse_lazy('content_list')
+
+
+
+class AssignmentListView(generic.ListView):
+    model = Assignment
+    context_object_name = 'assignments'
+    template_name = 'course/assignment_list.html'
+
+    def get_queryset(self):
+        return Assignment.objects.filter(course=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = get_object_or_404(course, pk=self.kwargs['pk'])
+        return context
 
 
 class AssignmentCreateView(generic.CreateView):
@@ -79,11 +122,51 @@ class AssignmentCreateView(generic.CreateView):
     success_url = reverse_lazy('course_detail')
 
 
+class AssignmentUpdateView(generic.UpdateView):
+    model = Assignment
+    fields = ['title', 'explain_assignments', 'assignment_file', 'due_date']
+    template_name = 'course/assignment_form.html'
+    success_url = reverse_lazy('course_detail')
+
+
+class AssignmentDeleteView(generic.DeleteView):
+    model = Assignment
+    template_name = 'course/assignment_confirm_delete.html'
+    success_url = reverse_lazy('assignment_list')
+
+
+class QuizListView(generic.ListView):
+    model = Quiz
+    context_object_name = 'quizzes'
+    template_name = 'course/quiz_list.html'
+
+    def get_queryset(self):
+        return Quiz.objects.filter(course=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = get_object_or_404(course, pk=self.kwargs['pk'])
+        return context
+
+
 class QuizCreateView(generic.CreateView):
     model = Quiz
     fields = ['quiz_title', 'quiz_deadline']
     template_name = 'course/quiz_form.html'
     success_url = reverse_lazy('course_detail')
+
+
+class QuizUpdateView(generic.UpdateView):
+    model = Quiz
+    fields = ['quiz_title', 'quiz_deadline']
+    template_name = 'course/quiz_form.html'
+    success_url = reverse_lazy('course_detail')
+
+
+class QuizDeleteView(generic.DeleteView):
+    model = Quiz
+    template_name = 'course/quiz_confirm_delete.html'
+    success_url = reverse_lazy('quiz_list')
 
 
 def submit_feedback(request, pk):
