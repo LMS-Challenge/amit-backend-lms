@@ -1,7 +1,10 @@
 from django.urls import path, include
 from .views import (
     CourseListView, CourseDetailView, CourseCreateView, CourseUpdateView,
-    CourseDeleteView, ContentCreateView, AssignmentCreateView, QuizCreateView, submit_feedback
+    CourseDeleteView, ContentListView, ContentCreateView,ContentUpdateView,
+    ContentDeleteView, AssignmentListView, AssignmentCreateView, AssignmentUpdateView,
+    AssignmentDeleteView, QuizListView, QuizCreateView, QuizUpdateView, QuizDeleteView,
+    submit_feedback
 )
 from rest_framework import routers
 from rest_framework.routers import DefaultRouter
@@ -21,8 +24,25 @@ urlpatterns = [
     path('add/', CourseCreateView.as_view(), name='course_add'),
     path('<int:pk>/update/', CourseUpdateView.as_view(), name='course_update'),
     path('<int:pk>/delete/', CourseDeleteView.as_view(), name='course_delete'),
+
+    ##################################Content URLS######################################
+    path('<int:pk>/content/', ContentListView.as_view(), name='content_list'),
     path('<int:pk>/content/add/', ContentCreateView.as_view(), name='content_add'),
+    path('<int:pk>/content/update/', ContentUpdateView.as_view(), name='content_update'),
+    path('<int:pk>/content/delete/', ContentDeleteView.as_view(), name='content_delete'),
+
+    ##################################Assignment URLS######################################
+    path('<int:pk>/assignment/', AssignmentListView.as_view(), name='assignment_list'),
     path('<int:pk>/assignment/add/', AssignmentCreateView.as_view(), name='assignment_add'),
+    path('<int:pk>/assignment/update/', AssignmentUpdateView.as_view(), name='assignment_update'),
+    path('<int:pk>/assignment/delete/', AssignmentDeleteView.as_view(), name='assignment_delete'),
+
+    ##################################Quiz URLS######################################
+    path('<int:pk>/quiz/', QuizListView.as_view(), name='quiz_list'),
     path('<int:pk>/quiz/add/', QuizCreateView.as_view(), name='quiz_add'),
+    path('<int:pk>/quiz/update/', QuizUpdateView.as_view(), name='quiz_update'),
+    path('<int:pk>/quiz/delete/', QuizDeleteView.as_view(), name='quiz_delete'),
+
+    ##################################Feedback URLS######################################
     path('<int:pk>/feedback/', submit_feedback, name='submit_feedback'),
 ]

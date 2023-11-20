@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.urls import reverse_lazy
 
 from .models import offer
 from users.models import Student
@@ -52,6 +53,8 @@ class OfferCreateView(UserPassesTestMixin, View):
         except:
             return JsonResponse({'message': 'Offer creation failed!'}, status=400)
 
+    success_url = reverse_lazy('offer_list')
+
 
 class OfferUpdateView(UserPassesTestMixin, View):
     def test_func(self):
@@ -73,6 +76,8 @@ class OfferUpdateView(UserPassesTestMixin, View):
         except:
             return JsonResponse({'message': 'Offer update failed!'}, status=400)
 
+    success_url = reverse_lazy('offer_detail')
+
 
 class OfferDeleteView(UserPassesTestMixin, View):
     def test_func(self):
@@ -85,6 +90,8 @@ class OfferDeleteView(UserPassesTestMixin, View):
             return JsonResponse({'message': 'Offer deleted successfully!'})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
+
+    success_url = reverse_lazy('offer_list')
 
 
 
