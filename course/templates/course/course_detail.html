@@ -3,12 +3,13 @@
 {% block content %}
 
 <div class="course-detail">
-    <div class="card mb-3">
-        <!-- Course Image -->
-        {% if course.course_image %}
-        <img src="{{ course.course_image.url }}" class="card-img-top" alt="{{ course.course_name }}">
-        {% endif %}
 
+    <!-- Course Image -->
+    {% if course.course_image %}
+    <img src="{{ course.course_image.url }}" class="card-img-top" alt="{{ course.course_name }}">
+    {% endif %}
+
+    <div class="course-card">
         <div class="card-body">
             <h3 class="card-title">{{ course.course_name }}</h3>
             <p class="card-text">{{ course.course_description }}</p>
@@ -24,40 +25,125 @@
                     {{ instructor.name }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}
                 </li>
-                <!-- Add more details as needed -->
             </ul>
 
-            <div class="card-footer text-muted">
-                <!-- Update Course button -->
-                <a href="{% url 'course_update' pk=course.pk %}" class="btn btn-secondary">Update Course</a>
-                <!-- Delete Course button -->
-                <a href="{% url 'course_delete' pk=course.pk %}" class="btn btn-danger">Delete Course</a>
-                <!-- Back to course list button -->
-                <a href="{% url 'course_list' %}" class="btn btn-primary">Back to Courses</a>
+            <!-- Content, Assignments, Quizzes, etc. -->
+            <div class="related-content">
+                <!-- Links to related content, assignments, and quizzes -->
+                <a href="{% url 'content_list' pk=course.pk %}">Content</a>
+                <a href="{% url 'assignment_list' pk=course.pk %}">Assignments</a>
+                <a href="{% url 'quiz_list' pk=course.pk %}">Quizzes</a>
             </div>
         </div>
-    </div>
 
-    <!-- Content, Assignments, Quizzes, etc. -->
-    <div class="related-content">
-        <h4>Content</h4>
-        <!-- List the content items here -->
-        {% for content in course.content_set.all %}
-        <p>{{ content.description }}</p>
-        {% endfor %}
-
-        <h4>Assignments</h4>
-        <!-- List the assignments here -->
-        {% for assignment in course.assignment_set.all %}
-        <p>{{ assignment.title }} - Due: {{ assignment.due_date }}</p>
-        {% endfor %}
-
-        <h4>Quizzes</h4>
-        <!-- List the quizzes here -->
-        {% for quiz in course.quiz_set.all %}
-        <p>{{ quiz.title }} - Due: {{ quiz.deadline }}</p>
-        {% endfor %}
-    </div>
+        <div class="actions">
+            <!-- Button links to update and delete course -->
+            <a href="{% url 'course_update' pk=course.pk %}" class="btn btn-update">Update Course</a>
+            <a href="{% url 'course_delete' pk=course.pk %}" class="btn btn-delete">Delete Course</a>
+            <a href="{% url 'course_list' %}" class="btn btn-back">Back to Courses</a>
+        </div>
 </div>
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #f9f9f9;
+    }
+    .course-detail {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    .course-card {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        text-align: center;
+    }
+    .card-img-top {
+        max-width: 100%;
+        height: auto;
+        border-bottom: 1px solid #ddd;
+    }
+    .card-body {
+        max-width: 800px;
+        width: 100%;
+        margin: auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        margin-top: -40px; /* Pull card up to overlap with image */
+    }
+    .card-title {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    .card-text {
+        color: #666;
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+    .list-group-item {
+        background: transparent;
+        border: none;
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+    .actions {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+    .btn {
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+    .btn:hover {
+        opacity: 0.9;
+    }
+    .btn-update {
+        background-color: #28a745;
+    }
+    .btn-delete {
+        background-color: #dc3545;
+    }
+    .btn-back {
+        background-color: #007bff;
+    }
+    .related-content {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+        background-color: #fff;
+        margin-top: 20px;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .related-content a {
+        color: #495057;
+        font-size: 1rem;
+        text-decoration: none;
+        padding: 0.375rem 0.75rem;
+        background-color: #e9ecef;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: background-color 0.3s ease;
+    }
+    .related-content a:hover {
+        background-color: #dde2e6;
+    }
+</style>
 
 {% endblock %}
