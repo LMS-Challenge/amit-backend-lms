@@ -130,20 +130,55 @@ class AssignmentCreateView(generic.CreateView):
     model = Assignment
     fields = ['title', 'explain_assignments', 'assignment_file', 'due_date']
     template_name = 'course/assignment_form.html'
-    success_url = reverse_lazy('course_detail')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'pk' in self.kwargs:
+            context['course'] = get_object_or_404(course, pk=self.kwargs['pk'])
+        return context
+
+
+    def form_valid(self, form):
+        form.instance.course = get_object_or_404(course, pk=self.kwargs['pk'])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('assignment_list', kwargs={'pk': self.object.course.pk})
 
 
 class AssignmentUpdateView(generic.UpdateView):
     model = Assignment
     fields = ['title', 'explain_assignments', 'assignment_file', 'due_date']
     template_name = 'course/assignment_form.html'
-    success_url = reverse_lazy('course_detail')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Ensure that 'pk' keyword argument is present in the URLconf
+        if 'pk' in self.kwargs:
+            # Get the course object to pass to the template
+            context['course'] = get_object_or_404(Assignment, pk=self.kwargs['pk']).course
+        return context
+
+    def get_success_url(self):
+        # Assuming that an assignment has a 'course' ForeignKey to redirect to its detail
+        return reverse_lazy('assignment_list', kwargs={'pk': self.object.course.pk})
 
 
 class AssignmentDeleteView(generic.DeleteView):
     model = Assignment
     template_name = 'course/assignment_confirm_delete.html'
-    success_url = reverse_lazy('assignment_list')
+    course_pk = None
+
+    def get_object(self, queryset=None):
+        obj = super(AssignmentDeleteView, self).get_object(queryset)
+        self.course_pk = obj.course.pk
+        return obj
+
+    def get_success_url(self):
+        if self.course_pk:
+            return reverse_lazy('assignment_list', kwargs={'pk': self.course_pk})
+        else:
+            return reverse_lazy('course_list')
 
 
 class QuizListView(generic.ListView):
