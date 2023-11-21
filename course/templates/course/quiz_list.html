@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Quizzes for {{ course.course_name }}</h1>
+    {% for quiz in quizzes %}
+        <div class="mb-2">
+            <strong>{{ quiz.quiz_title }}</strong> - due {{ quiz.quiz_deadline }}
+            <a href="{% url 'quiz_detail' pk=quiz.pk %}" class="btn btn-info btn-sm">View</a>
+            <a href="{% url 'quiz_update' pk=quiz.pk %}" class="btn btn-primary btn-sm">Edit</a>
+            <a href="{% url 'quiz_delete' pk=quiz.pk %}" class="btn btn-danger btn-sm">Delete</a>
+        </div>
+    {% empty %}
+        <p>No quizzes available.</p>
+    {% endfor %}
+    <a href="{% url 'quiz_add' pk=course.pk %}" class="btn btn-primary">Add New Quiz</a>
+    <a href="{% url 'course_detail' pk=course.pk %}" class="btn btn-secondary">Back to Course</a>
+</div>
+{% endblock %}

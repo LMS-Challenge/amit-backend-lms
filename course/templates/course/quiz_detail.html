@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Quiz Detail: {{ quiz.quiz_title }}</h1>
+    <p>Deadline: {{ quiz.quiz_deadline }}</p>
+    {% if quiz.quiz %}
+        <p>File: <a href="{{ quiz.quiz.url }}">Download</a></p>
+    {% endif %}
+    {% if quiz.url %}
+        <p>URL: <a href="{{ quiz.url }}">{{ quiz.url }}</a></p>
+    {% endif %}
+    <a href="{% url 'quiz_update' pk=quiz.pk %}" class="btn btn-primary">Edit Quiz</a>
+    <a href="{% url 'quiz_delete' pk=quiz.pk %}" class="btn btn-danger">Delete Quiz</a>
+    <a href="{% url 'quiz_list' pk=quiz.course.pk %}" class="btn btn-secondary">Back to Quizzes</a>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Assignment Detail - {{ assignment.title }}</h2>
+    <p><strong>Description:</strong> {{ assignment.explain_assignments }}</p>
+    <p><strong>Due Date:</strong> {{ assignment.due_date }}</p>
+    <p><strong>Attached File:</strong>
+        {% if assignment.assignment_file %}
+            <a href="{{ assignment.assignment_file.url }}" download>Download</a>
+        {% else %}
+            No file attached.
+        {% endif %}
+    </p>
+
+    <!-- List of students who have this assignment, if any -->
+    {% if assignment.students.all %}
+        <h4>Students with this Assignment</h4>
+        <ul>
+            {% for student in assignment.students.all %}
+                <li>{{ student.user.get_full_name }}</li> <!-- Assuming there is a user related to student -->
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="mt-3">
+        <a href="{% url 'assignment_update' pk=assignment.pk %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'assignment_delete' pk=assignment.pk %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'assignment_list' pk=assignment.course.pk %}" class="btn btn-secondary">Back to Assignments</a>
+    </div>
+</div>
+{% endblock %}
