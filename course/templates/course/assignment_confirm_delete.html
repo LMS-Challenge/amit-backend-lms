@@ -5,7 +5,7 @@
     <h2>Are you sure you want to delete "{{ object.title }}"?</h2>
     <form method="post">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Yes, delete</button>
+        <input type="submit" value="Delete Assignment" class="btn btn-danger" />
         <a href="{% url 'assignment_list' pk=object.course.pk %}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
