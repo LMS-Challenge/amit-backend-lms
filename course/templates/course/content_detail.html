@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Content Detail: {{ content.content_description }}</h1>
+    {% if content.content %}
+        <p>File: <a href="{{ content.content.url }}">Download</a></p>
+    {% else %}
+        <p>No file attached.</p>
+    {% endif %}
+    <a href="{% url 'content_update' pk=content.pk %}" class="btn btn-primary">Edit Content</a>
+    <a href="{% url 'content_delete' pk=content.pk %}" class="btn btn-danger">Delete Content</a>
+    <a href="{% url 'content_list' pk=content.course.pk %}" class="btn btn-secondary">Back to Content List</a>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Assignments for {{ course.course_name }}</h2>
+    <div class="list-group">
+        {% for assignment in assignments %}
+        <a href="{% url 'assignment_detail' pk=assignment.pk %}" class="list-group-item list-group-item-action">
+            {{ assignment.title }} - due {{ assignment.due_date }}
+        </a>
+        {% empty %}
+        <div class="alert alert-warning" role="alert">
+            No assignments have been added yet.
+        </div>
+        {% endfor %}
+    </div>
+    <div class = "container mt-5">
+        <a href="{% url 'assignment_add' pk=course.pk %}" class="btn btn-primary mt-3">Add New Assignment</a>
+        <a href="{% url 'course_detail' pk=course.pk %}" class="btn btn-secondary">Back to Course</a>
+    </div>
+</div>
+{% endblock %}
