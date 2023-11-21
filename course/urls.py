@@ -45,8 +45,8 @@ urlpatterns = [
     path('<int:pk>/quiz/', QuizListView.as_view(), name='quiz_list'),
     path('<int:pk>/quiz/detail/', QuizDetailView.as_view(), name='quiz_detail'),
     path('<int:pk>/quiz/add/', QuizCreateView.as_view(), name='quiz_add'),
-    path('<int:pk>/quiz/update/', QuizUpdateView.as_view(), name='quiz_update'),
-    path('<int:pk>/quiz/delete/', QuizDeleteView.as_view(), name='quiz_delete'),
+    path('<int:course_pk>/quiz/<int:pk>/update/', QuizUpdateView.as_view(), name='quiz_update'),
+    path('<int:course_pk>/quiz/<int:pk>/delete/', QuizDeleteView.as_view(), name='quiz_delete'),
 
     ##################################Feedback URLS######################################
     path('<int:pk>/feedback/', submit_feedback, name='submit_feedback'),
