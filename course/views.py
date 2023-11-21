@@ -80,6 +80,12 @@ class ContentListView(generic.ListView):
         return context
 
 
+class ContentDetailView(generic.DetailView):
+    model = Content
+    context_object_name = 'content'
+    template_name = 'course/content_detail.html'
+
+
 class ContentCreateView(generic.CreateView):
     model = Content
     fields = ['content', 'content_description']
@@ -107,12 +113,18 @@ class AssignmentListView(generic.ListView):
     template_name = 'course/assignment_list.html'
 
     def get_queryset(self):
-        return Assignment.objects.filter(course=self.kwargs['pk'])
+        return self.model.objects.filter(course_id=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['course'] = get_object_or_404(course, pk=self.kwargs['pk'])
         return context
+
+
+class AssignmentDetailView(generic.DetailView):
+    model = Assignment
+    context_object_name = 'assignment'
+    template_name = 'course/assignment_detail.html'
 
 
 class AssignmentCreateView(generic.CreateView):
@@ -147,6 +159,12 @@ class QuizListView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['course'] = get_object_or_404(course, pk=self.kwargs['pk'])
         return context
+
+
+class QuizDetailView(generic.DetailView):
+        model = Quiz
+        context_object_name = 'quiz'
+        template_name = 'course/quiz_detail.html'
 
 
 class QuizCreateView(generic.CreateView):
