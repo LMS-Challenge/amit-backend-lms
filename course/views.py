@@ -60,7 +60,6 @@ class CourseUpdateView(generic.UpdateView):
 
 class CourseDeleteView(generic.DeleteView):
     model = course
-    success_url = reverse_lazy('course_list')  # Redirect to the course list after deletion
     template_name = 'course/course_confirm_delete.html'
     success_url = reverse_lazy('course_list')
 
