@@ -70,7 +70,7 @@ class Content(models.Model):
 
 class Assignment(models.Model):
     """ this class to allow student practice by solve assignments number of assignments is the same as number of modules in courses"""
-    course = models.ForeignKey(course, on_delete=models.CASCADE)
+    course = models.ForeignKey(course, on_delete=models.CASCADE, related_name='course_assignment')
     title = models.CharField(max_length=100)
     explain_assignments = models.TextField()
     assignment_file = models.FileField(upload_to=upload_to, blank=True, null=True)
