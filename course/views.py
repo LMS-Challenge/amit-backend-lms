@@ -130,20 +130,55 @@ class AssignmentCreateView(generic.CreateView):
     model = Assignment
     fields = ['title', 'explain_assignments', 'assignment_file', 'due_date']
     template_name = 'course/assignment_form.html'
-    success_url = reverse_lazy('course_detail')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'pk' in self.kwargs:
+            context['course'] = get_object_or_404(course, pk=self.kwargs['pk'])
+        return context
+
+
+    def form_valid(self, form):
+        form.instance.course = get_object_or_404(course, pk=self.kwargs['pk'])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('assignment_list', kwargs={'pk': self.object.course.pk})
 
 
 class AssignmentUpdateView(generic.UpdateView):
     model = Assignment
     fields = ['title', 'explain_assignments', 'assignment_file', 'due_date']
     template_name = 'course/assignment_form.html'
-    success_url = reverse_lazy('course_detail')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Ensure that 'pk' keyword argument is present in the URLconf
+        if 'pk' in self.kwargs:
+            # Get the course object to pass to the template
+            context['course'] = get_object_or_404(Assignment, pk=self.kwargs['pk']).course
+        return context
+
+    def get_success_url(self):
+        # Assuming that an assignment has a 'course' ForeignKey to redirect to its detail
+        return reverse_lazy('assignment_list', kwargs={'pk': self.object.course.pk})
 
 
 class AssignmentDeleteView(generic.DeleteView):
     model = Assignment
     template_name = 'course/assignment_confirm_delete.html'
-    success_url = reverse_lazy('assignment_list')
+    course_pk = None
+
+    def get_object(self, queryset=None):
+        obj = super(AssignmentDeleteView, self).get_object(queryset)
+        self.course_pk = obj.course.pk
+        return obj
+
+    def get_success_url(self):
+        if self.course_pk:
+            return reverse_lazy('assignment_list', kwargs={'pk': self.course_pk})
+        else:
+            return reverse_lazy('course_list')
 
 
 class QuizListView(generic.ListView):
@@ -170,14 +205,35 @@ class QuizCreateView(generic.CreateView):
     model = Quiz
     fields = ['quiz_title', 'quiz_deadline']
     template_name = 'course/quiz_form.html'
-    success_url = reverse_lazy('course_detail')
+
+    def get_context_data(self, **kwargs):
+        context = super(QuizCreateView, self).get_context_data(**kwargs)
+        # Assuming the course's pk is passed via URL as 'pk' or 'course_pk'
+        context['course'] = get_object_or_404(course, pk=self.kwargs.get('pk') or self.kwargs.get('course_pk'))
+        return context
+
+    def form_valid(self, form):
+        # Assuming that you have a ForeignKey in Quiz model pointing to Course as 'course'
+        form.instance.course = get_object_or_404(course, pk=self.kwargs.get('pk') or self.kwargs.get('course_pk'))
+        return super(QuizCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        # Redirect to the quiz list for the course
+        return reverse_lazy('quiz_list', kwargs={'pk': self.object.course.pk})
 
 
 class QuizUpdateView(generic.UpdateView):
     model = Quiz
     fields = ['quiz_title', 'quiz_deadline']
     template_name = 'course/quiz_form.html'
-    success_url = reverse_lazy('course_detail')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = self.object.course
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('quiz_list', kwargs={'pk': self.object.course.pk})
 
 
 class QuizDeleteView(generic.DeleteView):

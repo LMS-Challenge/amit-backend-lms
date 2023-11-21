@@ -7,8 +7,8 @@
         <div class="mb-2">
             <strong>{{ quiz.quiz_title }}</strong> - due {{ quiz.quiz_deadline }}
             <a href="{% url 'quiz_detail' pk=quiz.pk %}" class="btn btn-info btn-sm">View</a>
-            <a href="{% url 'quiz_update' pk=quiz.pk %}" class="btn btn-primary btn-sm">Edit</a>
-            <a href="{% url 'quiz_delete' pk=quiz.pk %}" class="btn btn-danger btn-sm">Delete</a>
+            <a href="{% url 'quiz_update' course_pk=quiz.course.pk pk=quiz.pk %}" class="btn btn-primary btn-sm">Edit</a>
+            <a href="{% url 'quiz_delete' course_pk=quiz.course.pk pk=quiz.pk %}" class="btn btn-danger btn-sm">Delete</a>
         </div>
     {% empty %}
         <p>No quizzes available.</p>
